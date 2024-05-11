@@ -187,6 +187,6 @@ yarn-debug.log*
 yarn-error.log*
 
 
-/backend
+backend/
 
 45555.py
