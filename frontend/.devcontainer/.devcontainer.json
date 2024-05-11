@@ -1,0 +1,22 @@
+{
+	"name": "front-vscode",
+    // docker-compose.ymlのfrontにアタッチする
+    "dockerComposeFile": "../../docker-compose.yml",
+	"service": "front",
+    // 起動ディレクトリの設定
+	"workspaceFolder": "/workspace/front",
+    // 拡張機能の設定(日本語設定、git、Prettier、ESLint、Reactに関する拡張機能を設定)
+    // 拡張機能の設定欄は、各自カスタマイズしてOKです。
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"MS-CEINTL.vscode-language-pack-ja",
+				"mhutchie.git-graph",
+				"esbenp.prettier-vscode",
+				"dbaeumer.vscode-eslint",
+				"dsznajder.es7-react-js-snippets"
+			]
+		}
+	},
+	"shutdownAction": "none"
+}

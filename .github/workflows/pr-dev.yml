@@ -1,0 +1,61 @@
+name: pr-dev
+
+on:
+  push:
+    branches:
+      - issues*
+      - develop
+
+jobs:
+  pr-dev:
+    runs-on: ubuntu-latest
+    env: 
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set pr title
+        id: set_pr
+        run: |
+          pr_title='ticket_num:ticket_content'
+          base_branch=${{ (github.ref == 'refs/heads/develop' && 'main') || 'develop'}}
+          BRANCH_NAME=$(echo "$(git branch --show-current)")
+          pr_exists=$(gh pr list -H $BRANCH_NAME -s open --json number --jq '. | length')
+          if [ $pr_exists -eq 0 ];then 
+            echo "::set-output name=branch_exists::false"
+          else
+            echo "::set-output name=branch_exists::true"
+          fi
+          echo "::set-output name=pr_title::$pr_title"
+          echo "::set-output name=base_branch::$base_branch"
+
+
+      - name: Create release pr
+        if: ${{ steps.set_pr.outputs.branch_exists == 'false' }}
+        run: |
+          gh pr create -B ${{ steps.set_pr.outputs.base_branch }} -t ${{ steps.set_pr.outputs.pr_title }} \
+          -b "**プルリクのタイトルを変更すること**
+          
+          # チケットへのリンク
+          https://redmine.vbest.co.jp/issues/チケット番号
+          
+          # 作業内容
+          本プルリクの作業内容
+          例) migrationファイル追加
+          
+          # 影響範囲 & 動作確認
+          本作業によりどのような影響が出るか、影響に対する動作確認内容
+          例) アクセサを変更したので、使用している箇所の〇〇の表示箇所に影響あり。
+          ローカルの▲▲のページで表示が問題ないことを確認済み（PC/SP）
+          
+          # レビューポイント
+          変更の意図やレビュー時に見てほしいポイントなど（特になければ特になしでOK）
+          例) テストが十分かどうか不安なので重点的に見てほしい。
+          " 
+        # --force もし既存のpull requestがあれば上書きする 
+
+      - name: Skip PR creation
+        if: ${{ steps.set_pr.outputs.branch_exists == 'true' }}
+        run: echo "A PR for branch $BRANCH_NAME is already open, skipping PR creation."

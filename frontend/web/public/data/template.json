@@ -1,0 +1,62 @@
+[
+  {
+    "template_id": 1,
+    "name": "テストテンプレート1",
+    "sample_case_memo": "X=甲野次郎 X生年月日=平成４年６月３０日 X入社=平成２７年４月１日 X退職=令和３年４月３０日 X経歴=平成２８年に宅建に合格 X業務=営業及び一般事務、機器リースに関する事務作業全般 Y=サンプル株式会社 Y住所=東京都街田市３丁目２番地１号 Y代表=乙野次郎 Y業務=不動産賃貸",
+    "user_case_memo": "ユーザーケースメモ X=甲野次郎 X生年月日=平成４年６月３０日 X入社=平成２７年４月１日 X退職=令和３年４月３０日 X経歴=平成２８年に宅建に合格 X業務=営業及び一般事務、機器リースに関する事務作業全般 Y=サンプル株式会社 Y住所=東京都街田市３丁目２番地１号 Y代表=乙野次郎 Y業務=不動産賃貸",
+    "template_tree": [
+      {
+        "node_name": "請求の趣旨",
+        "sample_format": "これは請求の趣旨のサンプルフォーマットである。",
+        "user_format": "これは請求の趣旨のユーザーフォーマットである。",
+        "sample_generated_text": "これは請求の趣旨の書面として生成される内容である。",
+        "sort_order": 1,
+        "children": [
+          {
+            "node_name": "請求の趣旨(子ノード)",
+            "sample_format": "当事者のサンプルフォーマットである。",
+            "user_format": "当事者のユーザーフォーマットである。",
+            "sample_generated_text": "当事者の書面として生成される内容である。",
+            "sort_order": 3,
+            "children": [
+              {
+                "node_name": "請求の趣旨(孫ノード)",
+                "sample_format": "当事者のサンプルフォーマットである。",
+                "user_format": "当事者のユーザーフォーマットである。",
+                "sample_generated_text": "当事者の書面として生成される内容である。",
+                "sort_order": 3,
+                "children": [
+                  {
+                    "node_name": "請求の趣旨(ひ孫ノード)",
+                    "sample_format": "当事者のサンプルフォーマットである。",
+                    "user_format": "当事者のユーザーフォーマットである。",
+                    "sample_generated_text": "当事者の書面として生成される内容である。",
+                    "sort_order": 3,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "node_name": "請求の原因",
+        "sample_format": "請求の原因のサンプルフォーマットである。",
+        "user_format": "これは請求の原因のユーザーフォーマットである。",
+        "sample_generated_text": "請求の原因の書面として生成される内容である。",
+        "sort_order": 2,
+        "children": [
+          {
+            "node_name": "当事者",
+            "sample_format": "当事者のサンプルフォーマットである。",
+            "user_format": "当事者のユーザーフォーマットである。",
+            "sample_generated_text": "当事者の書面として生成される内容である。",
+            "sort_order": 3,
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

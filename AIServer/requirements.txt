@@ -1,0 +1,5 @@
+requests==2.31.0
+huggingface-hub==0.20.3
+hf-transfer==0.1.5
+gdown==5.1.0
+transformers==4.37.0

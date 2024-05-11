@@ -1,0 +1,28 @@
+services:
+  AISERVER:
+    image: ai_i
+    build:
+      context: .
+      dockerfile: Dockerfile.llama
+    environment:
+      MODEL_PATH: /app/text-generation-webui-main/models/VB-7B-v0.2-IQ4_XS.gguf
+      N_GPU_LAYERS: 99
+      N_CONTEXT: 8192
+      N_CTX_SIZE: 8192
+    container_name: ai_c
+    stdin_open: true
+    tty: true
+    volumes:
+      - /mnt/d/tool/text-generation-webui-main/models/:/app/text-generation-webui-main/models/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+    ports:
+      - "7004:7004"
+      - "7005:7005"
+      - "7860:7860"
+      - "7861:7861"

@@ -1,0 +1,1285 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "jsc",
+        "description": "",
+        "version": "1.0.0"
+    },
+    "tags": [
+        {
+            "name": "templates"
+        },
+        {
+            "name": "documents"
+        },
+        {
+            "name": "document_texts"
+        },
+        {
+            "name": "master"
+        }
+    ],
+    "paths": {
+        "/api/jsc/templates": {
+            "get": {
+                "summary": "テンプレート一覧の取得",
+                "deprecated": false,
+                "description": "テンプレート一覧を取得する",
+                "operationId": "getTemplates",
+                "tags": [
+                    "templates"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "template_id": {
+                                                        "type": "integer",
+                                                        "title": "ID",
+                                                        "format": "uint64",
+                                                        "examples": [
+                                                            1
+                                                        ],
+                                                        "minimum": 1,
+                                                        "description": "id"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "名称"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "name",
+                                                    "template_id"
+                                                ],
+                                                "additionalProperties": false
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/ai_types": {
+            "get": {
+                "summary": "ai_types一覧の取得",
+                "deprecated": false,
+                "description": "ai_types取得\n\n| ai_types_id | name |\n| --- | --- |\n| 1 | 所内AI |\n| 2 | 所外AI |\n",
+                "operationId": "getAiTypes",
+                "tags": [
+                    "master"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "ai_type_id": {
+                                                    "type": "integer",
+                                                    "format": "uint64",
+                                                    "examples": [
+                                                        1,
+                                                        2,
+                                                        3
+                                                    ],
+                                                    "minimum": 1,
+                                                    "description": "id"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "examples": [
+                                                        "Xwin-LM(local)",
+                                                        "GPT4(internet)"
+                                                    ],
+                                                    "description": "名称"
+                                                },
+                                                "attention_text": {
+                                                    "type": "string",
+                                                    "description": "注意文言",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "required": [
+                                                "ai_type_id",
+                                                "attention_text",
+                                                "name"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/waiting_statuses": {
+            "get": {
+                "summary": "wating_statuses一覧の取得",
+                "deprecated": false,
+                "description": "waiting_statuses取得\n\n| wating_status_id | name |\n| --- | --- |\n| 0 | 処理待ち |\n| 1 | 処理中 |\n| 9 | 処理完了 |\n| 51 | エラー終了（Frontend） |\n| 52 | エラー終了（Backend） |\n| 53 | エラー終了（LLM） |\n| 80 | タイムアウト |\n| 90 | キャンセル |",
+                "operationId": "getWaitingStatuses",
+                "tags": [
+                    "master"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "waiting_status_id": {
+                                                    "type": "integer",
+                                                    "examples": [
+                                                        1,
+                                                        2,
+                                                        3
+                                                    ],
+                                                    "format": "uint64",
+                                                    "minimum": 1,
+                                                    "description": "id"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "examples": [
+                                                        "処理待ち",
+                                                        "処理完了",
+                                                        "処理中",
+                                                        "エラー終了（LLM）",
+                                                        "タイムアウト",
+                                                        "キャンセル"
+                                                    ],
+                                                    "description": "名称"
+                                                }
+                                            },
+                                            "required": [
+                                                "waiting_status_id",
+                                                "name"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/templates/{template_id}": {
+            "get": {
+                "summary": "テンプレート詳細の取得",
+                "deprecated": false,
+                "description": "テンプレート詳細を取得する",
+                "operationId": "getTemplateDetail",
+                "tags": [
+                    "templates"
+                ],
+                "parameters": [
+                    {
+                        "name": "template_id",
+                        "in": "path",
+                        "description": "templates.id",
+                        "required": true,
+                        "example": "1",
+                        "schema": {
+                            "type": "integer",
+                            "format": "uint64",
+                            "minimum": 1,
+                            "examples": [
+                                1,
+                                2,
+                                3
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "template_id": {
+                                                    "type": "integer",
+                                                    "format": "uint64",
+                                                    "description": "templates.id"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "テンプレート名称",
+                                                    "examples": [
+                                                        "訴状（残業代）",
+                                                        "当事者目録"
+                                                    ]
+                                                },
+                                                "sample_case_memo": {
+                                                    "type": "string",
+                                                    "title": "サンプルケースメモ",
+                                                    "description": "サンプルケースメモ",
+                                                    "examples": [
+                                                        "X=甲野次郎 X生年月日=平成４年６月３０日 X入社=平成２７年４月１日 X退職=令和３年４月３０日 X経歴=平成２８年に宅建に合格 X業務=営業及び一般事務、機器リースに関する事務作業全般 Y=サンプル株式会社 Y住所=東京都街田市３丁目２番地１号 Y代表=乙野次郎 Y業務=不動産賃貸"
+                                                    ],
+                                                    "nullable": true
+                                                },
+                                                "user_case_memo": {
+                                                    "type": "string",
+                                                    "description": "フロント処理簡略化のため、sample_case_memoと同じ内容",
+                                                    "examples": [
+                                                        "X=甲野次郎 X生年月日=平成４年６月３０日 X入社=平成２７年４月１日 X退職=令和３年４月３０日 X経歴=平成２８年に宅建に合格 X業務=営業及び一般事務、機器リースに関する事務作業全般 Y=サンプル株式会社 Y住所=東京都街田市３丁目２番地１号 Y代表=乙野次郎 Y業務=不動産賃貸"
+                                                    ],
+                                                    "nullable": true
+                                                },
+                                                "template_tree": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "description": "子要素",
+                                                        "$ref": "#/components/schemas/template_node"
+                                                    },
+                                                    "description": "テンプレートのツリー",
+                                                    "minItems": 0
+                                                }
+                                            },
+                                            "required": [
+                                                "template_id",
+                                                "name",
+                                                "template_tree",
+                                                "sample_case_memo",
+                                                "user_case_memo"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "パラメータが正しくありません",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "指定したレコードが存在しない",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/documents": {
+            "post": {
+                "summary": "生成するドキュメント",
+                "deprecated": false,
+                "description": "新規にdocumentを発行する。\n\nAIによる生成を実行するタイミングやexportのタイミングで、\nフロントエンドがdocument_idを持っていなかったら、このエンドポイントで発行してから次の処理をおこなう。",
+                "operationId": "createDocument",
+                "tags": [
+                    "documents"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "document_id": {
+                                                    "type": "integer",
+                                                    "title": "ドキュメントID",
+                                                    "description": "document.id",
+                                                    "examples": [
+                                                        1,
+                                                        2,
+                                                        3
+                                                    ],
+                                                    "minimum": 1,
+                                                    "format": "uint64"
+                                                }
+                                            },
+                                            "required": [
+                                                "document_id"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/documents/{document_id}/texts": {
+            "post": {
+                "summary": "ドキュメントのノード単位",
+                "deprecated": false,
+                "description": "ドキュメントにノード処理情報を追加する",
+                "operationId": "createDocumentText",
+                "tags": [
+                    "document_texts"
+                ],
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "documents.id",
+                        "required": true,
+                        "example": "1",
+                        "schema": {
+                            "type": "integer",
+                            "format": "uint64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_format": {
+                                        "type": "string",
+                                        "examples": [
+                                            "被告は、{Y住所}所在の、{Y業務}を主要な業務とする株式会社である。"
+                                        ],
+                                        "description": "ユーザ入力のフォーマット"
+                                    },
+                                    "user_case_memo": {
+                                        "type": "string",
+                                        "examples": [
+                                            "X=甲野次郎X生年月日=平成４年６月３０日X入社=平成２７年４月１日X退職=令和３年４月３０日X経歴=平成２８年に宅建に合格X業務=営業及び一般事務、機器リースに関する事務作業全般Y=サンプル株式会社Y住所=東京都街田市３丁目２番地１号Y代表=乙野次郎"
+                                        ],
+                                        "description": "ユーザ入力のケースメモ"
+                                    },
+                                    "sample_case_memo": {
+                                        "type": "string",
+                                        "examples": [
+                                            "X=甲野次郎X生年月日=平成４年６月３０日X入社=平成２７年４月１日X退職=令和３年４月３０日X経歴=平成２８年に宅建に合格X業務=営業及び一般事務、機器リースに関する事務作業全般Y=サンプル株式会社Y住所=東京都街田市３丁目２番地１号Y代表=乙野次郎"
+                                        ],
+                                        "description": "サンプルケースメモ",
+                                        "nullable": true
+                                    },
+                                    "sample_format": {
+                                        "type": "string",
+                                        "examples": [
+                                            "原告は、{X生年月日}に生まれた。[{X経歴}を自然な文章で紹介]"
+                                        ],
+                                        "description": "サンプルフォーマット",
+                                        "nullable": true
+                                    },
+                                    "sample_generated_text": {
+                                        "type": "string",
+                                        "examples": [
+                                            "原告は、昭和６０年２月１日に生まれた。資格としては、平成２８年に宅建に合格している。"
+                                        ],
+                                        "description": "サンプル生成文章",
+                                        "nullable": true
+                                    },
+                                    "ai_type_id": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "format": "uint64",
+                                        "examples": [
+                                            1,
+                                            2,
+                                            3
+                                        ],
+                                        "description": "AIタイプID"
+                                    }
+                                },
+                                "required": [
+                                    "user_format",
+                                    "ai_type_id",
+                                    "sample_generated_text",
+                                    "sample_format",
+                                    "sample_case_memo",
+                                    "user_case_memo"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "document_text_id": {
+                                                    "type": "integer",
+                                                    "description": "document_texts.document_text_id",
+                                                    "format": "uint64",
+                                                    "examples": [
+                                                        1,
+                                                        2,
+                                                        3
+                                                    ],
+                                                    "minimum": 1
+                                                },
+                                                "waiting_status_id": {
+                                                    "type": "integer",
+                                                    "description": "waiting_statuses.waiting_status_id",
+                                                    "examples": [
+                                                        1
+                                                    ],
+                                                    "format": "uint64",
+                                                    "minimum": 1
+                                                },
+                                                "queue_count_total": {
+                                                    "type": "integer",
+                                                    "description": "キューの総数（≒待ちキュー数）",
+                                                    "minimum": 0
+                                                }
+                                            },
+                                            "required": [
+                                                "document_text_id",
+                                                "queue_count_total",
+                                                "waiting_status_id"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "パラメータが正しくありません",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "指定したレコードが存在しない",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            },
+            "get": {
+                "summary": "複数のノードのステータスを一括取得",
+                "deprecated": false,
+                "description": "複数のノードのステータスを一括取得します。\nフロントエンドからポーリングしてステータス変化を監視するためのエンドポイントです。",
+                "operationId": "getDocumentTextsStatus",
+                "tags": [
+                    "document_texts"
+                ],
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "example": "",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "document_text_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "description": "document_text_id",
+                                            "examples": [
+                                                1,
+                                                2,
+                                                3
+                                            ],
+                                            "format": "uint64"
+                                        },
+                                        "description": "この値がnullの場合は、document_idに紐づくすべてのdocument_textsの情報を返す"
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "queue_count_current": {
+                                                    "type": "integer",
+                                                    "description": "現在のキューの残り",
+                                                    "examples": [
+                                                        5
+                                                    ],
+                                                    "minimum": 0,
+                                                    "format": "uint64"
+                                                },
+                                                "document_texts_status": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "document_text_id": {
+                                                                "type": "integer",
+                                                                "description": "document_texts.id",
+                                                                "format": "uint64",
+                                                                "examples": [
+                                                                    1,
+                                                                    2,
+                                                                    3
+                                                                ],
+                                                                "minimum": 1
+                                                            },
+                                                            "waiting_status_id": {
+                                                                "type": "integer",
+                                                                "description": "waiting_statuses.waiting_status_id",
+                                                                "format": "uint64",
+                                                                "examples": [
+                                                                    1,
+                                                                    2,
+                                                                    3
+                                                                ],
+                                                                "minimum": 1
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "document_text_id",
+                                                            "waiting_status_id"
+                                                        ],
+                                                        "additionalProperties": false
+                                                    },
+                                                    "description": "各document_textのステータス",
+                                                    "minItems": 0
+                                                }
+                                            },
+                                            "required": [
+                                                "queue_count_current",
+                                                "document_texts_status"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "パラメータが正しくありません",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "指定したレコードが存在しない",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            },
+            "delete": {
+                "summary": "documentに紐づくノードの処理待ちのものをすべてキャンセル",
+                "deprecated": false,
+                "description": "documentに紐づくtextで、処理待ちのものをすべてキャンセルします。\n\n> document_texts.status_idがすべてキャンセル状態になります。\n> キャンセルされたレコードは再利用せず、再実行されたときは新たにレコードが生成されます。",
+                "operationId": "cancelDocumentText",
+                "tags": [
+                    "document_texts"
+                ],
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "documents.document_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "uint64",
+                            "minimum": 1,
+                            "examples": [
+                                1,
+                                2,
+                                3
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "パラメータが正しくありません",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "指定したレコードが存在しない",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/documents/{document_id}/export": {
+            "put": {
+                "summary": "ファイルexport",
+                "deprecated": false,
+                "description": "生成内容を送信し、wordファイルを生成し、ファイルURLを受け取る。",
+                "tags": [
+                    "documents"
+                ],
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "documents.id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "uint64",
+                            "examples": [
+                                1,
+                                2,
+                                3
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_generated_content_tree": {
+                                        "type": "array",
+                                        "items": {
+                                            "description": "子要素",
+                                            "$ref": "#/components/schemas/user_generated_content_node"
+                                        },
+                                        "minItems": 0
+                                    }
+                                },
+                                "required": [
+                                    "user_generated_content_tree"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "exported_file_url": {
+                                                    "type": "string",
+                                                    "format": "uri",
+                                                    "examples": [
+                                                        "http://localhost/file123456789.docx"
+                                                    ],
+                                                    "description": "exportされたファイルのURL"
+                                                },
+                                                "exported_datetime": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "examples": [
+                                                        "2024-03-25 12:34:56"
+                                                    ],
+                                                    "description": "export日時"
+                                                }
+                                            },
+                                            "required": [
+                                                "exported_file_url",
+                                                "exported_datetime"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "パラメータが正しくありません",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "指定したレコードが存在しない",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/jsc/documents/{document_id}/texts/{document_text_id}": {
+            "get": {
+                "summary": "ノードの詳細情報の取得",
+                "deprecated": false,
+                "description": "ノード1つの詳細情報を取得。\n主にai生成後のgenerated_textを取得するために使うエンドポイント。",
+                "operationId": "getDocumentText",
+                "tags": [
+                    "document_texts"
+                ],
+                "parameters": [
+                    {
+                        "name": "document_id",
+                        "in": "path",
+                        "description": "documents.document_id",
+                        "required": true,
+                        "example": "1",
+                        "schema": {
+                            "type": "integer",
+                            "format": "uint64",
+                            "examples": [
+                                1,
+                                2,
+                                3
+                            ],
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "document_text_id",
+                        "in": "path",
+                        "description": "document_texts.document_text_id",
+                        "required": true,
+                        "example": "1",
+                        "schema": {
+                            "type": "integer",
+                            "format": "uint64",
+                            "examples": [
+                                1,
+                                2,
+                                3
+                            ],
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "wating_status_id": {
+                                                    "type": "integer",
+                                                    "description": "waiting_statuses.waiting_status_id",
+                                                    "format": "uint64",
+                                                    "examples": [
+                                                        1,
+                                                        9,
+                                                        90
+                                                    ],
+                                                    "minimum": 1
+                                                },
+                                                "ai_type_id": {
+                                                    "type": "integer",
+                                                    "description": "ai_types.ai_type_id",
+                                                    "format": "uint64",
+                                                    "examples": [
+                                                        1,
+                                                        2
+                                                    ],
+                                                    "minimum": 1
+                                                },
+                                                "ai_generated_text": {
+                                                    "type": "string",
+                                                    "description": "生成された本文。生成完了前はnull。",
+                                                    "examples": [
+                                                        "被告はタイムカードによる勤務時間管理を行っていなかったため、本件においてはタイムカードによる労働時間の認定をすることはできない。しかし原告は、日々の勤務状況を自らの手帳に記録していた。本訴状における残業代の計算は、この手帳の記載を根拠として行ったものである。",
+                                                        "本件においては，被告から，超過勤務手当部分については定額残業代の支払であるから，所定賃金から除かれるべきであると主張されることが予想される。 しかし，このような他の手当を名目としたいわゆる定額残業代の支払が許されるためには，①実質的に見て，当該手当が時間外労働の対価としての性格を有していること（条件①）は勿論，②支給時に支給対象の時間外労働の時間数と残業手当の額が労働者に明示され，定額残業代によってまかなわれる残業時間数を超えて残業が行われた場合には別途清算する旨の合意が存在するか，少なくともそうした取扱いが確立していること（条件②）が必要不可欠であるというべきである（東京地判平成２４年８月２８日判決・アクティリンク事件（労働判例１０５８号５頁）。東京地判平成２５年２月２８日判決・イーライフ事件（労働判例１０７４号４７頁）にも同旨。）。 これを本件についてみると，本件超過勤務手当については，超過勤務時間に対する賃金額が超過勤務手当の額を超える場合に，これを精算するという合意はなされていない。また，被告においては，タイムカードによる労働時間管理が行われていなかったため，毎月の超過勤務時間を算定の上で基礎賃金から算定される残業代と比較して清算するというような取り扱いも，全くなされていなかった。 よって，本件における超過勤務手当をいわゆる定額残業代として，基礎賃金から除くことは相当でないというべきである。"
+                                                    ],
+                                                    "nullable": true
+                                                },
+                                                "ai_generate_start_datitme": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "examples": [
+                                                        "2024-03-25 12:34:56"
+                                                    ],
+                                                    "description": "AIによる生成開始日時。生成開始前はnull。",
+                                                    "nullable": true
+                                                },
+                                                "ai_generate_end_datetime": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "examples": [
+                                                        "2024-03-25 12:34:56"
+                                                    ],
+                                                    "description": "AIによる生成完了日時。生成完了前はnull。",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "required": [
+                                                "wating_status_id",
+                                                "ai_generate_start_datitme",
+                                                "ai_generated_text",
+                                                "ai_type_id",
+                                                "ai_generate_end_datetime"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "パラメータが正しくありません",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "指定したレコードが存在しない",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "user_generated_content_node": {
+                "type": "object",
+                "properties": {
+                    "node_name": {
+                        "type": "string",
+                        "description": "ノード名称",
+                        "examples": [
+                            "当事者"
+                        ],
+                        "nullable": true
+                    },
+                    "user_generated_text": {
+                        "type": "string",
+                        "description": "ユーザ生成文章",
+                        "examples": [
+                            "被告は、千葉市青葉区３丁目２番地１号に本店を有し、運送業を主要な業務とする株式会社である。 原告は、被告の従業員として、昭和６０年４月１日から令和６年２月２８日までの間、被告に雇用され現にその業務に従事していた者である。"
+                        ]
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "description": "順序。階層関係なく、通し。",
+                        "examples": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "minimum": 1,
+                        "format": "uint64"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "description": "子要素",
+                            "$ref": "#/components/schemas/user_generated_content_node"
+                        },
+                        "description": "子要素をN個含む配列",
+                        "minItems": 0
+                    }
+                },
+                "required": [
+                    "node_name",
+                    "children",
+                    "sort_order",
+                    "user_generated_text"
+                ],
+                "additionalProperties": false
+            },
+            "template_node": {
+                "type": "object",
+                "properties": {
+                    "node_name": {
+                        "type": "string",
+                        "examples": [
+                            "請求の原因",
+                            "原告の経歴"
+                        ],
+                        "description": "ノード名称"
+                    },
+                    "sample_format": {
+                        "type": "string",
+                        "description": "サンプルフォーマット",
+                        "examples": [
+                            "被告は、{Y住所}所在の、{Y業務}を主要な業務とする株式会社である。",
+                            "原告は、{X生年月日}に生まれた。[{X経歴}を自然な文章で紹介]"
+                        ],
+                        "nullable": true
+                    },
+                    "user_format": {
+                        "type": "string",
+                        "description": "フロント処理簡略化のため、sample_formatと同じ内容",
+                        "examples": [
+                            "被告は、{Y住所}所在の、{Y業務}を主要な業務とする株式会社である。",
+                            "原告は、{X生年月日}に生まれた。[{X経歴}を自然な文章で紹介]"
+                        ],
+                        "nullable": true
+                    },
+                    "sample_generated_text": {
+                        "type": "string",
+                        "examples": [
+                            "被告は、東京都街田市３丁目２番地１号に本店を有し、不動産賃貸等を主要な業務とする株式会社である。",
+                            "原告は、昭和６０年２月１日に生まれた。資格としては、平成２８年に宅建に合格している。"
+                        ],
+                        "description": "サンプル生成文章",
+                        "nullable": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "description": "順序。階層関係なく、通し。",
+                        "examples": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "format": "uint64",
+                        "minimum": 1,
+                        "nullable": true
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "description": "子要素",
+                            "$ref": "#/components/schemas/template_node"
+                        },
+                        "description": "子要素をN個含む配列",
+                        "minItems": 0
+                    }
+                },
+                "required": [
+                    "node_name",
+                    "sample_format",
+                    "sample_generated_text",
+                    "sort_order",
+                    "children",
+                    "user_format"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {}
+    },
+    "servers": []
+}

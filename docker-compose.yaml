@@ -1,0 +1,113 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: db
+    build: ./MySQL
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./MySQL/db:/docker-entrypoint-initdb.d #初期データ
+    env_file: .env
+    networks:
+      - JSC-network
+
+  python:
+    container_name: backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/files://backend/files
+      # - ./backend/log/my_backend_logs:/logs
+      - ./backend:/test/backend
+      - /var/run/docker.sock:/var/run/docker.sock
+    tty: true
+    depends_on:
+      - mysql
+    env_file: .env
+    networks:
+      - JSC-network
+
+  node:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/test/frontend
+      - /var/run/docker.sock:/var/run/docker.sock
+    tty: true
+
+  prism:
+    build:
+      context: ./OpenAPI
+    ports:
+      - "4010:4010"
+    volumes:
+      - ./OpenAPI:/app/OpenAPI
+
+  llm:
+    build:
+      context: ./LLM
+      dockerfile: Dockerfile
+    container_name: myllm
+    restart: always
+    depends_on:
+      - mysql
+    # volumes:
+    #   - ./LLM/log/my_llm_logs:/logs
+    env_file: .env
+    networks:
+      - JSC-network
+
+  word:
+    build:
+      context: ./export_word
+      dockerfile: Dockerfile
+    environment:
+      FLASK_ENV: development
+    ports:
+      - "7007:5001"
+    container_name: export_word
+    # volumes:
+    #   - ./export_word/logs/word_logs.log:/logs
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      - JSC-network
+
+  AISERVER:
+    image: ai_i
+    build:
+      context: ./AIServer
+      dockerfile: Dockerfile.llama
+    environment:
+      MODEL_PATH: /app/text-generation-webui-main/models/VB-7B-v0.2-IQ4_XS.gguf
+      N_GPU_LAYERS: 99
+      N_CONTEXT: 8192
+      N_CTX_SIZE: 8192
+    container_name: ai_c
+    stdin_open: true
+    tty: true
+    volumes:
+      - /mnt/d/tool/text-generation-webui-main/models/:/app/text-generation-webui-main/models/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+    ports:
+      - "7004:7004"
+      - "7005:7005"
+      - "7860:7860"
+      - "7861:7861"
+    networks:
+      - JSC-network
+
+networks:
+    JSC-network:
+        external: true
