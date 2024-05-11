@@ -187,7 +187,9 @@ yarn-debug.log*
 yarn-error.log*
 
 
-
+#.gitignoreファイル記載項目
 /backend/
 
+
+#.gitignoreファイル記載項目
 4555.py
